@@ -12,9 +12,18 @@ namespace DeliveryAWP
 {
     public partial class Form1 : Form
     {
+        List<Package> Packages = new List<Package>();
+
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void NewPackageButton_Click(object sender, EventArgs e)
+        {
+            AddPackageForm addPackageForm = new AddPackageForm(this);
+            addPackageForm.ShowDialog();
+            
         }
     }
 }

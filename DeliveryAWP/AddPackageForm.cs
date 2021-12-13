@@ -12,14 +12,23 @@ namespace DeliveryAWP
 {
     public partial class AddPackageForm : Form
     {
-        public AddPackageForm()
+        Form1 Caller;
+        public AddPackageForm(Form1 form)
         {
+            Caller = form;
             InitializeComponent();
         }
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                Package p = new Package(SenderTextBox.Text, ReciverTextBox.Text, CreatedDateTimePicker.Value);
+                Caller
+            }
+            catch {
+                MessageBox.Show("Ошибка ввода. Констркутор класса Package не может обработать входные данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void SenderTextBox_TextChanged(object sender, EventArgs e)
@@ -42,11 +51,6 @@ namespace DeliveryAWP
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void CreatedDateTimePicker_ValueChanged(object sender, EventArgs e)
         {
 
@@ -57,11 +61,7 @@ namespace DeliveryAWP
 
         }
 
-        private void MainTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        
         private void CancelButton_Click(object sender, EventArgs e)
         {
 
