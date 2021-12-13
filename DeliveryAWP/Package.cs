@@ -11,7 +11,7 @@ namespace DeliveryAWP
         Done
     }; 
 
-    class Package
+    public class Package
     {         
         string Sender { get; }
         string Reciver { get; }

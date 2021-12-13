@@ -24,7 +24,7 @@ namespace DeliveryAWP
             try
             {
                 Package p = new Package(SenderTextBox.Text, ReciverTextBox.Text, CreatedDateTimePicker.Value);
-                Caller
+                Caller.Packages.Add(p);
             }
             catch {
                 MessageBox.Show("Ошибка ввода. Констркутор класса Package не может обработать входные данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);

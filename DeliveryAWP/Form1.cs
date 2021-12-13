@@ -12,7 +12,7 @@ namespace DeliveryAWP
 {
     public partial class Form1 : Form
     {
-        List<Package> Packages = new List<Package>();
+        public List<Package>  Packages = new List<Package>();
 
         public Form1()
         {
