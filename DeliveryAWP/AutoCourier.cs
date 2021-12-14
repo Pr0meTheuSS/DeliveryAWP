@@ -15,7 +15,7 @@ namespace DeliveryAWP
         //расход топлива (л на 100 км)
         public double FuelConsumption;
 
-        AutoCourier(string name, string carnumber, double fuelconsumption, int volume, int averTime, double salaryforpckg) 
+        public AutoCourier(string name, int volume, int averTime, double salaryforpckg, string carnumber, double fuelconsumption) 
             : base(name, volume, averTime, salaryforpckg) 
         {
             if (carnumber == "" || fuelconsumption < 4)//мин расход топлива у машины в мире 4 л на 100 км

@@ -1,0 +1,13 @@
+[
+  {
+    "Name": "дашмиисо",
+    "Volume": 12,
+    "AverageDeliverTime": 12,
+    "Packages": [],
+    "DateAndTimeOfDispatch": "0001-01-01T00:00:00",
+    "DateAndTimeOfReturns": "0001-01-01T00:00:00",
+    "SalaryForPckg": 100.0,
+    "PckgCount": 0,
+    "IsBusy": false
+  }
+]

@@ -8,7 +8,7 @@ namespace DeliveryAWP
 {
     //класс пешего курьера
     [Serializable]
-    class Courier
+    public class Courier
     {
         public string Name;
         //вместимость 
@@ -25,18 +25,18 @@ namespace DeliveryAWP
 
         public double SalaryForPckg;
 
-        int PckgCount = 0;
+        public int PckgCount = 0;
 
         public bool IsBusy = false;
 
-        public Courier(string name, int volume, int averTime, double salaryforpckg)
+        public Courier(string name, int volume, int AverageDeliverTime, double salaryforpckg)
         {
-            if (name == "" || volume < 1 || averTime < 1 || salaryforpckg < 100)
+            if (name == "" || volume < 1 || AverageDeliverTime < 1 || salaryforpckg < 100)
                 throw new ArgumentException();
             
             Name = name;
             Volume = volume;
-            AverageDeliverTime = averTime;
+            this.AverageDeliverTime = AverageDeliverTime;
             SalaryForPckg = salaryforpckg;
         }
 
@@ -60,6 +60,11 @@ namespace DeliveryAWP
             DateAndTimeOfDispatch = startTime;
             DateAndTimeOfReturns = DateAndTimeOfDispatch.AddMinutes(AverageDeliverTime * Packages.Count());
             PckgCount += Packages.Count;
+            foreach (Package p in Packages)
+            {
+                p.Status = EPackageStatus.Done;
+            }
+
             Packages.Clear();
             IsBusy = true;
         }

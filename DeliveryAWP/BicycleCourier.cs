@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DeliveryAWP
 {
-    class BicycleCourier : Courier
+    public class BicycleCourier : Courier
     {
         //модель и номер велосипеда
         public string Bicycle;
-        BicycleCourier(string name, int volume, int averTime, double salaryforpckg, string bicycle) 
+        public BicycleCourier(string name, int volume, int averTime, double salaryforpckg, string bicycle) 
             : base(name, volume, averTime, salaryforpckg)
         {
             if (bicycle == "")
@@ -21,7 +21,8 @@ namespace DeliveryAWP
 
         public override string GetInfo()
         {
-            return Name + " - вело. Макс посылок: " + Volume + " Ср. время доставки: " + AverageDeliverTime + " минут. ЗП за 1 посылку: " + SalaryForPckg + " Велосипед: " + Bicycle;
+            return Name + " - вело. Макс посылок: " + Volume + " Ср. время доставки: " + AverageDeliverTime + 
+                " минут. ЗП за 1 посылку: " + SalaryForPckg + " Велосипед: " + Bicycle;
         }
 
         public override double GetSalary()
