@@ -51,13 +51,11 @@ namespace DeliveryAWP
             // 
             resources.ApplyResources(this.ReciverTextBox, "ReciverTextBox");
             this.ReciverTextBox.Name = "ReciverTextBox";
-            this.ReciverTextBox.TextChanged += new System.EventHandler(this.ReciverTextBox_TextChanged);
             // 
             // CreatedDateTimePicker
             // 
             resources.ApplyResources(this.CreatedDateTimePicker, "CreatedDateTimePicker");
             this.CreatedDateTimePicker.Name = "CreatedDateTimePicker";
-            this.CreatedDateTimePicker.ValueChanged += new System.EventHandler(this.CreatedDateTimePicker_ValueChanged);
             // 
             // CreateButton
             // 
@@ -70,25 +68,21 @@ namespace DeliveryAWP
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // SenderTextBox
             // 
             resources.ApplyResources(this.SenderTextBox, "SenderTextBox");
             this.SenderTextBox.Name = "SenderTextBox";
-            this.SenderTextBox.TextChanged += new System.EventHandler(this.SenderTextBox_TextChanged);
             // 
             // AddPackageForm
             // 

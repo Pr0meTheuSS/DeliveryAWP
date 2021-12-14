@@ -6,30 +6,38 @@ using System.Threading.Tasks;
 
 namespace DeliveryAWP
 {
-    enum EPackageStatus {         
+    public enum EPackageStatus 
+    {         
         Wait,
         Done
     }; 
 
+    [Serializable]
     public class Package
-    {         
-        string Sender { get; }
-        string Reciver { get; }
-        DateTime DateAndTimeCreated { get; }
-        EPackageStatus Status { get; set; }
+    {
+        public string Sender;
+        public string Reciver;
+        public DateTime DateAndTimeCreated;
+        public EPackageStatus Status;
+
+        public void SetStatus(EPackageStatus status)
+        {
+            Status = status;
+        }
 
         public Package(string sender, string reciver, DateTime dateAndTimeCreated) 
         {
+
+            if (sender == "" || reciver == "" || dateAndTimeCreated == null)
+                throw new ArgumentException();
+
             Sender = sender;
             Reciver = reciver;
             DateAndTimeCreated = dateAndTimeCreated;
             Status = EPackageStatus.Wait;
         }
 
-        public void AssignToDeliveryman(/*DeliveryMan deliveryMan*/)
-        {
-            Status = EPackageStatus.Done;
-            /*deliveryMan.AssignPackage();*/
-        }
+
+
     }
 }

@@ -26,45 +26,15 @@ namespace DeliveryAWP
                 Package p = new Package(SenderTextBox.Text, ReciverTextBox.Text, CreatedDateTimePicker.Value);
                 Caller.Packages.Add(p);
             }
-            catch {
+            catch
+            {
                 MessageBox.Show("Ошибка ввода. Констркутор класса Package не может обработать входные данные", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-        private void SenderTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CreatedDateTimePicker_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ReciverTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         
         private void CancelButton_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
     }
 }
