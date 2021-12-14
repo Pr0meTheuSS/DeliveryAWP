@@ -63,6 +63,8 @@ namespace DeliveryAWP
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.FreeCouriers = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.OpenCouriers = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenPackages = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.PCKGSGB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PackagesDGW)).BeginInit();
@@ -112,6 +114,9 @@ namespace DeliveryAWP
             // 
             // Open
             // 
+            this.Open.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenCouriers,
+            this.OpenPackages});
             this.Open.Name = "Open";
             this.Open.Size = new System.Drawing.Size(224, 26);
             this.Open.Text = "Открыть";
@@ -396,6 +401,20 @@ namespace DeliveryAWP
             this.label1.TabIndex = 6;
             this.label1.Text = "Курьер:";
             // 
+            // OpenCouriers
+            // 
+            this.OpenCouriers.Name = "OpenCouriers";
+            this.OpenCouriers.Size = new System.Drawing.Size(224, 26);
+            this.OpenCouriers.Text = "Курьеры";
+            this.OpenCouriers.Click += new System.EventHandler(this.OpenCouriers_Click);
+            // 
+            // OpenPackages
+            // 
+            this.OpenPackages.Name = "OpenPackages";
+            this.OpenPackages.Size = new System.Drawing.Size(224, 26);
+            this.OpenPackages.Text = "Заявки";
+            this.OpenPackages.Click += new System.EventHandler(this.OpenPackages_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -453,6 +472,8 @@ namespace DeliveryAWP
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox FreeCouriers;
+        private System.Windows.Forms.ToolStripMenuItem OpenCouriers;
+        private System.Windows.Forms.ToolStripMenuItem OpenPackages;
     }
 }
 

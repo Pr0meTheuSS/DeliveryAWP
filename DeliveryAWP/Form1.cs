@@ -23,7 +23,7 @@ namespace DeliveryAWP
         {
             InitializeComponent();
             CurrentTime = DateTime.Now;
-            timer1.Start();
+            //timer1.Start();
 
             PCKGSGB.Visible = false;
             CouriersGB.Visible = false;
@@ -151,49 +151,9 @@ namespace DeliveryAWP
 
         private void Open_Click(object sender, EventArgs e)
         {
-            string filePath = "";
-            openFileDialog1.Title = "Выберите файл с заявками";
-            openFileDialog1.ShowDialog();
-            if (openFileDialog1.FileName != openFileDialog1.InitialDirectory)
-                filePath = openFileDialog1.FileName;
 
-            try
-            {
-                if (File.Exists(filePath))
-                {
-                    Packages.Clear();
-                    var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-                    Packages = JsonConvert.DeserializeObject<List<Package>>(File.ReadAllText(filePath), settings);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Файл поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
 
-            }
-
-            openFileDialog1.Title = "Выберите файл с курьерами";
-            openFileDialog1.ShowDialog();
-            if (openFileDialog1.FileName != openFileDialog1.InitialDirectory)
-                filePath = openFileDialog1.FileName;
-
-            try
-            {
-                if (File.Exists(filePath))
-                {
-                    Couriers.Clear();
-                    var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-                    Couriers = JsonConvert.DeserializeObject<List<Courier>>(File.ReadAllText(filePath), settings);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Файл поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-
-            }
-        }
+        }   
 
         private void Save_Click(object sender, EventArgs e)
         {
@@ -266,8 +226,67 @@ namespace DeliveryAWP
                 if(Couriers[i].GetInfo() == FreeCouriers.Text)
                 {
                     Couriers[i].AddToPackgList(Packages[PackagesDGW.CurrentCell.RowIndex], CurrentTime);
+                    FreeCouriers.Text = "";
                     break;
                 }
+            }
+        }
+
+        private void OpenCouriers_Click(object sender, EventArgs e)
+        {
+            string filePath = "";
+            openFileDialog1.Title = "Выберите файл с курьерами";
+            openFileDialog1.ShowDialog();
+            if (openFileDialog1.FileName != openFileDialog1.InitialDirectory)
+                filePath = openFileDialog1.FileName;
+
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    Couriers.Clear();
+                    var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+                    Couriers = JsonConvert.DeserializeObject<List<Courier>>(File.ReadAllText(filePath), settings);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Файл поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        private void OpenPackages_Click(object sender, EventArgs e)
+        {
+            string filePath = "";
+            openFileDialog1.Title = "Выберите файл с заявками";
+            openFileDialog1.ShowDialog();
+            if (openFileDialog1.FileName != openFileDialog1.InitialDirectory)
+                filePath = openFileDialog1.FileName;
+
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    Packages.Clear();
+                    var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+                    try
+                    {
+                        Packages = JsonConvert.DeserializeObject<List<Package>>(File.ReadAllText(filePath), settings);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Файл поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Файл поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+
             }
         }
     }
