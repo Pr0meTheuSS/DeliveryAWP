@@ -100,8 +100,11 @@ namespace DeliveryAWP
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Reciver);
             this.Controls.Add(this.Sender);
+            this.MaximumSize = new System.Drawing.Size(501, 226);
+            this.MinimumSize = new System.Drawing.Size(501, 226);
             this.Name = "AddNewPckg";
-            this.Text = "AddNewPckg";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Добавление заказа";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -209,8 +209,11 @@ namespace DeliveryAWP
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CourierType);
+            this.MaximumSize = new System.Drawing.Size(453, 301);
+            this.MinimumSize = new System.Drawing.Size(453, 301);
             this.Name = "AddCourier";
-            this.Text = "AddCourier";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Добавление курьера";
             this.Load += new System.EventHandler(this.AddCourier_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

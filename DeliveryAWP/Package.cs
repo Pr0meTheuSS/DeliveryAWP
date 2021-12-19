@@ -9,6 +9,7 @@ namespace DeliveryAWP
     public enum EPackageStatus 
     {         
         Wait,
+        InWork,
         Done
     }; 
 
@@ -19,7 +20,7 @@ namespace DeliveryAWP
         public string Reciver;
         public DateTime DateAndTimeCreated;
         public EPackageStatus Status;
-
+        public Courier Deliver; 
         public void SetStatus(EPackageStatus status)
         {
             Status = status;
@@ -37,7 +38,9 @@ namespace DeliveryAWP
             Status = EPackageStatus.Wait;
         }
 
-
+        public void AssignToDeliver(Courier courier) {
+            Deliver = courier;
+        }
 
     }
 }

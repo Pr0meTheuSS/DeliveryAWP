@@ -23,13 +23,15 @@ namespace DeliveryAWP
         {
             try
             {
+                //создаем новую заявку
                 Package p = new Package(Sender.Text, Reciver.Text, Caller.CurrentTime);
+                //добавляем в список
                 Caller.Packages.Add(p);
                 Close();
             }
             catch
             {
-                MessageBox.Show("Ошибка ввода. Констркутор класса Package не может обработать входные данные", "Ошибка", 
+                MessageBox.Show("Ошибка ввода. Пустые поля недопустимы.", "Ошибка", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

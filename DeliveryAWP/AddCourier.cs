@@ -29,6 +29,7 @@ namespace DeliveryAWP
 
         private void CourierType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //открывыаем поля для ввода в зависимости от выбранного типа
             if (CourierType.SelectedIndex == 0)
             {
                 FuelTB.Visible = false;
@@ -60,9 +61,11 @@ namespace DeliveryAWP
 
         private void SaveCourier_Click(object sender, EventArgs e)
         {
+            //создаем объект базового класса
             Courier c = null;
             try
             {
+                //в зависимости от выбранного типа создаем объект производного класса
                 if (CourierType.SelectedIndex == 0)
                 {
                     c = new Courier(CourierNameTB.Text, Convert.ToInt32(VolumeTB.Text), Convert.ToInt32(TimeMTB.Text), 
@@ -81,6 +84,7 @@ namespace DeliveryAWP
                         Convert.ToInt32(SalaryMTB.Text), TransportTB.Text, Convert.ToDouble(FuelTB.Text));
                 }
 
+                //записываем созданного курьера в список курьеров
                 Caller.Couriers.Add(c);
                 Close();
             }

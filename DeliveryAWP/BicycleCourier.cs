@@ -10,8 +10,8 @@ namespace DeliveryAWP
     {
         //модель и номер велосипеда
         public string Bicycle;
-        public BicycleCourier(string name, int volume, int averTime, double salaryforpckg, string bicycle) 
-            : base(name, volume, averTime, salaryforpckg)
+        public BicycleCourier(string name, int volume, int averagedelivertime, double salaryforpckg, string bicycle) 
+            : base(name, volume, averagedelivertime, salaryforpckg)
         {
             if (bicycle == "")
                 throw new ArgumentException();

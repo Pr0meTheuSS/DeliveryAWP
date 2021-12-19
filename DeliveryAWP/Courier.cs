@@ -40,6 +40,7 @@ namespace DeliveryAWP
             SalaryForPckg = salaryforpckg;
         }
 
+        //добавление в список посылок
         public bool AddToPackgList(Package package, DateTime startTime)
         {
             if (IsBusy)
@@ -55,17 +56,20 @@ namespace DeliveryAWP
             }
         } 
 
+        //имитация работы курьера
         public void Start(DateTime startTime)
         {
+            //вычисление времени прихода с заказов
             DateAndTimeOfDispatch = startTime;
             DateAndTimeOfReturns = DateAndTimeOfDispatch.AddMinutes(AverageDeliverTime * Packages.Count());
+            //увеличение счетчика доставленных посылок
             PckgCount += Packages.Count;
+            //изменение статуса заявок
             foreach (Package p in Packages)
             {
-                p.Status = EPackageStatus.Done;
+                p.Status = EPackageStatus.InWork;
             }
-
-            Packages.Clear();
+            //установка флага занятости
             IsBusy = true;
         }
 

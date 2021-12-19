@@ -16,6 +16,8 @@ namespace DeliveryAWP
     {
         public List<Package>  Packages = new List<Package>();
         public List<Courier> Couriers = new List<Courier>();
+        string CourierFilePath = "Couriers.json";
+        string PackagesFilePath = "Packages.json";
 
         public DateTime CurrentTime;
 
@@ -23,14 +25,24 @@ namespace DeliveryAWP
         {
             InitializeComponent();
             CurrentTime = DateTime.Now;
-            //timer1.Start();
-
+            //Запускаем таймер
+            timer1.Start();
+            //прячем груп боксы
             PCKGSGB.Visible = false;
             CouriersGB.Visible = false;
         }
 
+        //функция обновления информации в таблицах
         void ReDraw()
         {
+            int CourierSelectedRow = 0;
+            int PackagesSelectedRow = 0;
+            if (COURIERSDGW.CurrentCell != null)
+                CourierSelectedRow = COURIERSDGW.CurrentCell.RowIndex;
+            
+            if(PackagesDGW.CurrentCell != null)
+            PackagesSelectedRow = PackagesDGW.CurrentCell.RowIndex;
+
             //перерисовка заявок
             PackagesDGW.Rows.Clear();
             for(int i = 0; i < Packages.Count; i++)
@@ -52,6 +64,7 @@ namespace DeliveryAWP
                 {
                     FreeCouriers.Items.Add(Couriers[i].GetInfo());
                 }
+
                 COURIERSDGW.Rows.Add();
                 COURIERSDGW.Rows[i].Cells[0].Value = Couriers[i].Name;
                 COURIERSDGW.Rows[i].Cells[1].Value = Couriers[i].Volume;
@@ -68,6 +81,9 @@ namespace DeliveryAWP
                     COURIERSDGW.Rows[i].Cells[6].Value = "Ожидает";
                 }
             }
+
+            COURIERSDGW.CurrentCell = COURIERSDGW[0, CourierSelectedRow];
+            PackagesDGW.CurrentCell = PackagesDGW[0, PackagesSelectedRow];
             
         }
 
@@ -84,7 +100,13 @@ namespace DeliveryAWP
             foreach(Courier c in Couriers)
             {
                 if (CurrentTime >= c.DateAndTimeOfReturns)
+                {
                     c.IsBusy = false;
+                    foreach (Package p in c.Packages) 
+                    {
+                        p.SetStatus(EPackageStatus.Done);
+                    }
+                }
             }
 
             ReDraw();
@@ -92,30 +114,40 @@ namespace DeliveryAWP
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            if (PackagesDGW.CurrentCell == null || PackagesDGW.CurrentCell.RowIndex == -1 )
+            if (PackagesDGW.CurrentCell == null || PackagesDGW.CurrentCell.RowIndex == -1 || PackagesDGW.CurrentCell.RowIndex >= Packages.Count())
             {
                 MessageBox.Show("Не выбрана заявка для удаления.\nНажмите на ячейку строки таблицы которая соответствует нужной заявке.", 
                     "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (Packages.ElementAt(PackagesDGW.CurrentCell.RowIndex).Status == EPackageStatus.InWork) 
+            {
+                MessageBox.Show("Удаление невозвможно - посылка уже доставляется.",
+                    "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+
+            }
 
             Packages.RemoveAt(PackagesDGW.CurrentCell.RowIndex);
             ReDraw();
         }
-
+        //переключение с меню курьеров на меню заявок
         private void PackagesBTTN_Click(object sender, EventArgs e)
         {
             PCKGSGB.Visible = true;
             CouriersGB.Visible = false;
+            ReDraw();
         }
-
+        //переключение с заявок на курьеров
         private void CouriersBttn_Click(object sender, EventArgs e)
         {
             PCKGSGB.Visible = false;
             CouriersGB.Visible = true;
+            ReDraw();
 
         }
 
+        //добавление нового курьера
         private void AddCourier_Click(object sender, EventArgs e)
         {
             AddCourier addcourier = new AddCourier(this);
@@ -123,24 +155,44 @@ namespace DeliveryAWP
             ReDraw();
         }
 
+        //удаление курьера
         private void DeleteCourier_Click(object sender, EventArgs e)
         {
-            if (COURIERSDGW.CurrentCell == null || COURIERSDGW.CurrentCell.RowIndex == -1)
+            if (COURIERSDGW.CurrentCell == null || COURIERSDGW.CurrentCell.RowIndex == -1 || COURIERSDGW.CurrentCell.RowIndex >= Couriers.Count())
             {
                 MessageBox.Show("Не выбран курьер для удаления.\nНажмите на ячейку строки таблицы которая соответствует нужному курьеру.",
                     "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            if(Couriers[COURIERSDGW.CurrentCell.RowIndex].IsBusy)
+            {
+                MessageBox.Show("Выбранный курьер еще доставляет заказы. Дождитесь его возвращения.",
+                    "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             Couriers.RemoveAt(COURIERSDGW.CurrentCell.RowIndex);
             ReDraw();
         }
-
+        //отправка курьера, который заполнен не полностью
         private void SendCourier_Click(object sender, EventArgs e)
         {
-            if (COURIERSDGW.CurrentCell == null || COURIERSDGW.CurrentCell.RowIndex == -1)
+            if (COURIERSDGW.CurrentCell == null || COURIERSDGW.CurrentCell.RowIndex == -1 || COURIERSDGW.CurrentCell.RowIndex >= Couriers.Count())
             {
                 MessageBox.Show("Не выбран курьер для отправки.\nНажмите на ячейку строки таблицы которая соответствует нужному курьеру.", 
+                    "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (Couriers[COURIERSDGW.CurrentCell.RowIndex].IsBusy)
+            {
+                MessageBox.Show("Выбранный курьер уже доставляет заказы. Дождитесь его возвращения.",
+                    "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (Couriers[COURIERSDGW.CurrentCell.RowIndex].Packages.Count == 0)
+            {
+                MessageBox.Show("Выбранному курьеру нечего доставлять. Для того, чтобы отправить его, ему необходимо выдать заказ.",
                     "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -148,50 +200,27 @@ namespace DeliveryAWP
             Couriers[COURIERSDGW.CurrentCell.RowIndex].Start(CurrentTime);
             ReDraw();
         }
-
-        private void Open_Click(object sender, EventArgs e)
-        {
-
-
-        }   
-
+        //сохраняем данные в файлы
         private void Save_Click(object sender, EventArgs e)
         {
             try
             {
-                string filePath = "";
-                saveFileDialog1.Title = "Введите имя файла с заявками для сохранения";
-                saveFileDialog1.ShowDialog();
-                if (saveFileDialog1.FileName != saveFileDialog1.InitialDirectory)
-                    filePath = saveFileDialog1.FileName;
-
-                filePath += ".json";
-
                 if (Packages.Count != 0)
                 {
                     var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
                     JsonSerializer json = JsonSerializer.Create(settings);
-                    using (StreamWriter sw = new StreamWriter(filePath))
+                    using (StreamWriter sw = new StreamWriter(PackagesFilePath))
                     using (JsonWriter writer = new JsonTextWriter(sw))
                     {
                         json.Serialize(writer, Packages);
                     }
                 }
 
-                filePath = "";
-                saveFileDialog1.Title = "Введите имя файла с курьерами для сохранения";
-                saveFileDialog1.ShowDialog();
-
-                if (saveFileDialog1.FileName != saveFileDialog1.InitialDirectory)
-                    filePath = saveFileDialog1.FileName;
-
-                filePath += ".json";
-
                 if (Couriers.Count != 0)
                 {
                     var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
                     JsonSerializer json = JsonSerializer.Create(settings);
-                    using (StreamWriter sw = new StreamWriter(filePath))
+                    using (StreamWriter sw = new StreamWriter(CourierFilePath))
                     using (JsonWriter writer = new JsonTextWriter(sw))
                     {
                         json.Serialize(writer, Couriers);
@@ -206,6 +235,7 @@ namespace DeliveryAWP
             }
         }
 
+        //передача заявки курьеру
         private void AddToCourier_Click(object sender, EventArgs e)
         {
             if(FreeCouriers.Text == "")
@@ -225,61 +255,49 @@ namespace DeliveryAWP
             {
                 if(Couriers[i].GetInfo() == FreeCouriers.Text)
                 {
-                    Couriers[i].AddToPackgList(Packages[PackagesDGW.CurrentCell.RowIndex], CurrentTime);
-                    FreeCouriers.Text = "";
+                    if (PackagesDGW.CurrentCell.RowIndex >= Packages.Count()) 
+                    {
+                        MessageBox.Show("Не выбрана заявка для назначения курьера.\nНажмите на ячейку строки таблицы которая соответствует нужной заявке.",
+                        "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    if (Couriers[i].AddToPackgList(Packages[PackagesDGW.CurrentCell.RowIndex], CurrentTime))
+                        FreeCouriers.Text = "";
+                    else
+                    {
+                        MessageBox.Show("Не удалось добавить заявку курьеру :(!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     break;
                 }
             }
+            ReDraw();
         }
 
-        private void OpenCouriers_Click(object sender, EventArgs e)
+        //автоматическое чтение данных при загрузке окна
+        private void Form1_Load(object sender, EventArgs e)
         {
-            string filePath = "";
-            openFileDialog1.Title = "Выберите файл с курьерами";
-            openFileDialog1.ShowDialog();
-            if (openFileDialog1.FileName != openFileDialog1.InitialDirectory)
-                filePath = openFileDialog1.FileName;
-
             try
             {
-                if (File.Exists(filePath))
+                if (File.Exists(CourierFilePath))
                 {
                     Couriers.Clear();
                     var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-                    Couriers = JsonConvert.DeserializeObject<List<Courier>>(File.ReadAllText(filePath), settings);
+                    Couriers = JsonConvert.DeserializeObject<List<Courier>>(File.ReadAllText(CourierFilePath), settings);
                 }
             }
             catch
             {
-                MessageBox.Show("Файл поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Файл с информацией о курьерах не был открыт, так как поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-        }
-
-        private void OpenPackages_Click(object sender, EventArgs e)
-        {
-            string filePath = "";
-            openFileDialog1.Title = "Выберите файл с заявками";
-            openFileDialog1.ShowDialog();
-            if (openFileDialog1.FileName != openFileDialog1.InitialDirectory)
-                filePath = openFileDialog1.FileName;
 
             try
             {
-                if (File.Exists(filePath))
+                if (File.Exists(PackagesFilePath))
                 {
                     Packages.Clear();
                     var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-                    try
-                    {
-                        Packages = JsonConvert.DeserializeObject<List<Package>>(File.ReadAllText(filePath), settings);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Файл поврежден или имет некорректный формат.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-
+                    Packages = JsonConvert.DeserializeObject<List<Package>>(File.ReadAllText(PackagesFilePath), settings);
                 }
             }
             catch
@@ -288,6 +306,19 @@ namespace DeliveryAWP
                 return;
 
             }
+            ReDraw();
+        }
+        //Здесь как будто бы происходит зачисление денег курьерам
+        private void PaySalaryBttn_Click(object sender, EventArgs e)
+        {
+
+            //как бы заплатили деньги и сбрасываем счетчики доставленных посылок
+            for(int i = 0; i < Couriers.Count(); i++)
+            {
+                Couriers[i].ResetCounter();
+            }
+
+
         }
     }
 }

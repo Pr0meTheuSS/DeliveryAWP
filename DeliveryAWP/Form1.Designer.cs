@@ -34,11 +34,12 @@ namespace DeliveryAWP
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.FILE = new System.Windows.Forms.ToolStripSplitButton();
-            this.Open = new System.Windows.Forms.ToolStripMenuItem();
             this.Save = new System.Windows.Forms.ToolStripMenuItem();
             this.CouriersBttn = new System.Windows.Forms.ToolStripStatusLabel();
             this.PackagesBTTN = new System.Windows.Forms.ToolStripStatusLabel();
             this.PCKGSGB = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.FreeCouriers = new System.Windows.Forms.ComboBox();
             this.Date = new System.Windows.Forms.Label();
             this.Delete = new System.Windows.Forms.Button();
             this.AddToCourier = new System.Windows.Forms.Button();
@@ -48,6 +49,7 @@ namespace DeliveryAWP
             this.DateAndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CouriersGB = new System.Windows.Forms.GroupBox();
+            this.PaySalaryBttn = new System.Windows.Forms.Button();
             this.SendCourier = new System.Windows.Forms.Button();
             this.DeleteCourier = new System.Windows.Forms.Button();
             this.AddCourier = new System.Windows.Forms.Button();
@@ -61,10 +63,6 @@ namespace DeliveryAWP
             this.CourierStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.FreeCouriers = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.OpenCouriers = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenPackages = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.PCKGSGB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PackagesDGW)).BeginInit();
@@ -74,8 +72,7 @@ namespace DeliveryAWP
             // 
             // NewPackageButton
             // 
-            this.NewPackageButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NewPackageButton.Location = new System.Drawing.Point(6, 363);
+            this.NewPackageButton.Location = new System.Drawing.Point(6, 61);
             this.NewPackageButton.Name = "NewPackageButton";
             this.NewPackageButton.Size = new System.Drawing.Size(131, 31);
             this.NewPackageButton.TabIndex = 0;
@@ -106,26 +103,15 @@ namespace DeliveryAWP
             // 
             this.FILE.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.FILE.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Open,
             this.Save});
             this.FILE.Name = "FILE";
             this.FILE.Size = new System.Drawing.Size(64, 24);
             this.FILE.Text = "Файл";
             // 
-            // Open
-            // 
-            this.Open.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenCouriers,
-            this.OpenPackages});
-            this.Open.Name = "Open";
-            this.Open.Size = new System.Drawing.Size(224, 26);
-            this.Open.Text = "Открыть";
-            this.Open.Click += new System.EventHandler(this.Open_Click);
-            // 
             // Save
             // 
             this.Save.Name = "Save";
-            this.Save.Size = new System.Drawing.Size(224, 26);
+            this.Save.Size = new System.Drawing.Size(166, 26);
             this.Save.Text = "Сохранить";
             this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
@@ -162,6 +148,25 @@ namespace DeliveryAWP
             this.PCKGSGB.TabStop = false;
             this.PCKGSGB.Text = "Заявки";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 17);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Курьер:";
+            // 
+            // FreeCouriers
+            // 
+            this.FreeCouriers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FreeCouriers.FormattingEnabled = true;
+            this.FreeCouriers.Location = new System.Drawing.Point(68, 31);
+            this.FreeCouriers.Name = "FreeCouriers";
+            this.FreeCouriers.Size = new System.Drawing.Size(854, 24);
+            this.FreeCouriers.TabIndex = 5;
+            // 
             // Date
             // 
             this.Date.AutoSize = true;
@@ -172,8 +177,8 @@ namespace DeliveryAWP
             // 
             // Delete
             // 
-            this.Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Delete.Location = new System.Drawing.Point(808, 363);
+            this.Delete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Delete.Location = new System.Drawing.Point(800, 61);
             this.Delete.Name = "Delete";
             this.Delete.Size = new System.Drawing.Size(120, 31);
             this.Delete.TabIndex = 3;
@@ -183,8 +188,7 @@ namespace DeliveryAWP
             // 
             // AddToCourier
             // 
-            this.AddToCourier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddToCourier.Location = new System.Drawing.Point(149, 363);
+            this.AddToCourier.Location = new System.Drawing.Point(149, 61);
             this.AddToCourier.Name = "AddToCourier";
             this.AddToCourier.Size = new System.Drawing.Size(146, 31);
             this.AddToCourier.TabIndex = 2;
@@ -203,7 +207,7 @@ namespace DeliveryAWP
             this.Reciver,
             this.DateAndTime,
             this.Status});
-            this.PackagesDGW.Location = new System.Drawing.Point(6, 58);
+            this.PackagesDGW.Location = new System.Drawing.Point(4, 103);
             this.PackagesDGW.Name = "PackagesDGW";
             this.PackagesDGW.ReadOnly = true;
             this.PackagesDGW.RowHeadersWidth = 51;
@@ -252,6 +256,7 @@ namespace DeliveryAWP
             this.CouriersGB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CouriersGB.Controls.Add(this.PaySalaryBttn);
             this.CouriersGB.Controls.Add(this.SendCourier);
             this.CouriersGB.Controls.Add(this.DeleteCourier);
             this.CouriersGB.Controls.Add(this.AddCourier);
@@ -263,12 +268,22 @@ namespace DeliveryAWP
             this.CouriersGB.TabStop = false;
             this.CouriersGB.Text = "Курьеры";
             // 
+            // PaySalaryBttn
+            // 
+            this.PaySalaryBttn.Location = new System.Drawing.Point(290, 25);
+            this.PaySalaryBttn.Name = "PaySalaryBttn";
+            this.PaySalaryBttn.Size = new System.Drawing.Size(180, 27);
+            this.PaySalaryBttn.TabIndex = 3;
+            this.PaySalaryBttn.Text = "Выдать зарплату";
+            this.PaySalaryBttn.UseVisualStyleBackColor = true;
+            this.PaySalaryBttn.Click += new System.EventHandler(this.PaySalaryBttn_Click);
+            // 
             // SendCourier
             // 
             this.SendCourier.Location = new System.Drawing.Point(149, 25);
             this.SendCourier.Name = "SendCourier";
             this.SendCourier.Size = new System.Drawing.Size(125, 27);
-            this.SendCourier.TabIndex = 3;
+            this.SendCourier.TabIndex = 2;
             this.SendCourier.Text = "Отправить";
             this.SendCourier.UseVisualStyleBackColor = true;
             this.SendCourier.Click += new System.EventHandler(this.SendCourier_Click);
@@ -279,7 +294,7 @@ namespace DeliveryAWP
             this.DeleteCourier.Location = new System.Drawing.Point(795, 23);
             this.DeleteCourier.Name = "DeleteCourier";
             this.DeleteCourier.Size = new System.Drawing.Size(125, 27);
-            this.DeleteCourier.TabIndex = 2;
+            this.DeleteCourier.TabIndex = 4;
             this.DeleteCourier.Text = "Удалить";
             this.DeleteCourier.UseVisualStyleBackColor = true;
             this.DeleteCourier.Click += new System.EventHandler(this.DeleteCourier_Click);
@@ -382,39 +397,6 @@ namespace DeliveryAWP
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // FreeCouriers
-            // 
-            this.FreeCouriers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FreeCouriers.FormattingEnabled = true;
-            this.FreeCouriers.Location = new System.Drawing.Point(68, 31);
-            this.FreeCouriers.Name = "FreeCouriers";
-            this.FreeCouriers.Size = new System.Drawing.Size(854, 24);
-            this.FreeCouriers.TabIndex = 5;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 17);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Курьер:";
-            // 
-            // OpenCouriers
-            // 
-            this.OpenCouriers.Name = "OpenCouriers";
-            this.OpenCouriers.Size = new System.Drawing.Size(224, 26);
-            this.OpenCouriers.Text = "Курьеры";
-            this.OpenCouriers.Click += new System.EventHandler(this.OpenCouriers_Click);
-            // 
-            // OpenPackages
-            // 
-            this.OpenPackages.Name = "OpenPackages";
-            this.OpenPackages.Size = new System.Drawing.Size(224, 26);
-            this.OpenPackages.Text = "Заявки";
-            this.OpenPackages.Click += new System.EventHandler(this.OpenPackages_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -424,7 +406,8 @@ namespace DeliveryAWP
             this.Controls.Add(this.PCKGSGB);
             this.Controls.Add(this.CouriersGB);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Автоматизированное рабочее место сотрудника курьерской службы";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.PCKGSGB.ResumeLayout(false);
@@ -450,7 +433,6 @@ namespace DeliveryAWP
         private System.Windows.Forms.DataGridView PackagesDGW;
         private System.Windows.Forms.Label Date;
         private System.Windows.Forms.ToolStripSplitButton FILE;
-        private System.Windows.Forms.ToolStripMenuItem Open;
         private System.Windows.Forms.ToolStripMenuItem Save;
         private System.Windows.Forms.DataGridViewTextBoxColumn Sender;
         private System.Windows.Forms.DataGridViewTextBoxColumn Reciver;
@@ -472,8 +454,7 @@ namespace DeliveryAWP
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox FreeCouriers;
-        private System.Windows.Forms.ToolStripMenuItem OpenCouriers;
-        private System.Windows.Forms.ToolStripMenuItem OpenPackages;
+        private System.Windows.Forms.Button PaySalaryBttn;
     }
 }
 
