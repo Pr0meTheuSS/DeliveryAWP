@@ -36,5 +36,11 @@ namespace DeliveryAWP
             return base.GetSalary() * 1.4;
         }
 
+        public override string _GetType()
+        {
+            return "AutoCourier";
+        }
+
+
     }
 }

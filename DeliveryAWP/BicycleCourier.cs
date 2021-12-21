@@ -30,5 +30,10 @@ namespace DeliveryAWP
             //умножается, чтобы поощрить эффективность велосипеда.
             return base.GetSalary() * 1.2;
         }
+        public override string _GetType()
+        {
+            return "BicycleCourier";
+        }
+
     }
 }

@@ -45,20 +45,37 @@ namespace DeliveryAWP
 
             //перерисовка заявок
             PackagesDGW.Rows.Clear();
-            for(int i = 0; i < Packages.Count; i++)
+            if (Packages == null)
+            {
+                return;
+            }
+            for(int i = 0; i < Packages.Count(); i++)
             {
                 PackagesDGW.Rows.Add();
                 PackagesDGW.Rows[i].Cells[0].Value = Packages[i].Sender;
                 PackagesDGW.Rows[i].Cells[1].Value = Packages[i].Reciver;
                 PackagesDGW.Rows[i].Cells[2].Value = Packages[i].DateAndTimeCreated;
-                PackagesDGW.Rows[i].Cells[3].Value = Packages[i].Status;
+                if (Packages[i].Deliver != null)
+                {
+                    PackagesDGW.Rows[i].Cells[3].Value = Packages[i].Deliver.Name;
+                }
+                else
+                {
+                    PackagesDGW.Rows[i].Cells[3].Value = "";
+                }
+                PackagesDGW.Rows[i].Cells[4].Value = Packages[i].Status;
             }
 
 
             //Перерисовка курьеров
             COURIERSDGW.Rows.Clear();
             FreeCouriers.Items.Clear();
-            for(int i = 0; i < Couriers.Count; i++)
+            if (Couriers == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < Couriers.Count; i++)
             {
                 if(!Couriers[i].IsBusy)
                 {
@@ -99,13 +116,14 @@ namespace DeliveryAWP
             CurrentTime = CurrentTime.AddMinutes(1.0);
             foreach(Courier c in Couriers)
             {
-                if (CurrentTime >= c.DateAndTimeOfReturns)
+                if (CurrentTime >= c.DateAndTimeOfReturns && c.IsBusy)
                 {
                     c.IsBusy = false;
                     foreach (Package p in c.Packages) 
                     {
                         p.SetStatus(EPackageStatus.Done);
                     }
+                    c.Packages.Clear();
                 }
             }
 
@@ -244,10 +262,17 @@ namespace DeliveryAWP
                 return;
             }
 
-            if (PackagesDGW.CurrentCell == null || PackagesDGW.CurrentCell.RowIndex == -1)
+            if (PackagesDGW.CurrentCell == null || PackagesDGW.CurrentCell.RowIndex == -1 || PackagesDGW.CurrentCell.RowIndex >= Packages.Count())
             {
                 MessageBox.Show("Не выбрана заявка для отправки.\nНажмите на ячейку строки таблицы которая соответствует нужной заявке.",
                     "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (Packages[PackagesDGW.CurrentCell.RowIndex].Deliver != null)
+            {
+                MessageBox.Show("Курьер уже назначен.",
+                 "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -262,7 +287,10 @@ namespace DeliveryAWP
                         return;
                     }
                     if (Couriers[i].AddToPackgList(Packages[PackagesDGW.CurrentCell.RowIndex], CurrentTime))
+                    {
                         FreeCouriers.Text = "";
+                        Packages[PackagesDGW.CurrentCell.RowIndex].AssignToDeliver(Couriers[i]);
+                    }
                     else
                     {
                         MessageBox.Show("Не удалось добавить заявку курьеру :(!", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -283,6 +311,10 @@ namespace DeliveryAWP
                     Couriers.Clear();
                     var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
                     Couriers = JsonConvert.DeserializeObject<List<Courier>>(File.ReadAllText(CourierFilePath), settings);
+                    if (Couriers == null) 
+                    {
+                        Couriers = new List<Courier>();
+                    }
                 }
             }
             catch
@@ -298,6 +330,10 @@ namespace DeliveryAWP
                     Packages.Clear();
                     var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
                     Packages = JsonConvert.DeserializeObject<List<Package>>(File.ReadAllText(PackagesFilePath), settings);
+                    if (Packages == null)
+                    {
+                        Packages = new List<Package>();
+                    }
                 }
             }
             catch
@@ -319,6 +355,32 @@ namespace DeliveryAWP
             }
 
 
+        }
+
+        private void EditPackage_Click(object sender, EventArgs e)
+        {
+            if (PackagesDGW.CurrentCell == null || PackagesDGW.CurrentCell.RowIndex == -1 || PackagesDGW.CurrentCell.RowIndex >= Packages.Count())
+            {
+                MessageBox.Show("Не выбрана заявка для редактирования.",
+                    "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            AddNewPckg editingPckgForm = new AddNewPckg(this, PackagesDGW.CurrentCell.RowIndex);
+            editingPckgForm.ShowDialog();
+        }
+
+        private void EditCourier_Click(object sender, EventArgs e)
+        {
+            if (COURIERSDGW.CurrentCell == null || COURIERSDGW.CurrentCell.RowIndex == -1 || COURIERSDGW.CurrentCell.RowIndex >= Couriers.Count())
+            {
+                MessageBox.Show("Не выбран курьер для редактирования.",
+                    "Ошибка:", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            AddCourier editingCourierForm = new AddCourier(this, COURIERSDGW.CurrentCell.RowIndex);
+            editingCourierForm.ShowDialog();
         }
     }
 }

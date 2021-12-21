@@ -50,6 +50,8 @@ namespace DeliveryAWP
             else
             {
                 Packages.Add(package);
+                package.Status = EPackageStatus.InWork;
+
                 if (Packages.Count == Volume)
                     Start(startTime);
                 return true;
@@ -86,6 +88,11 @@ namespace DeliveryAWP
         public void ResetCounter()
         {
             PckgCount = 0;
+        }
+
+        public virtual string _GetType()
+        {
+            return "Courier";
         }
     }
 }

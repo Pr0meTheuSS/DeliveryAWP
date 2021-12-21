@@ -36,6 +36,7 @@ namespace DeliveryAWP
             Reciver = reciver;
             DateAndTimeCreated = dateAndTimeCreated;
             Status = EPackageStatus.Wait;
+            Deliver = null;
         }
 
         public void AssignToDeliver(Courier courier) {

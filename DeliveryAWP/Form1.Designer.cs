@@ -44,10 +44,6 @@ namespace DeliveryAWP
             this.Delete = new System.Windows.Forms.Button();
             this.AddToCourier = new System.Windows.Forms.Button();
             this.PackagesDGW = new System.Windows.Forms.DataGridView();
-            this.Sender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Reciver = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateAndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CouriersGB = new System.Windows.Forms.GroupBox();
             this.PaySalaryBttn = new System.Windows.Forms.Button();
             this.SendCourier = new System.Windows.Forms.Button();
@@ -63,6 +59,13 @@ namespace DeliveryAWP
             this.CourierStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.Sender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Reciver = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateAndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CourierData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EditPackage = new System.Windows.Forms.Button();
+            this.EditCourier = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.PCKGSGB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PackagesDGW)).BeginInit();
@@ -134,6 +137,7 @@ namespace DeliveryAWP
             this.PCKGSGB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.PCKGSGB.Controls.Add(this.EditPackage);
             this.PCKGSGB.Controls.Add(this.label1);
             this.PCKGSGB.Controls.Add(this.FreeCouriers);
             this.PCKGSGB.Controls.Add(this.Date);
@@ -206,6 +210,7 @@ namespace DeliveryAWP
             this.Sender,
             this.Reciver,
             this.DateAndTime,
+            this.CourierData,
             this.Status});
             this.PackagesDGW.Location = new System.Drawing.Point(4, 103);
             this.PackagesDGW.Name = "PackagesDGW";
@@ -215,47 +220,12 @@ namespace DeliveryAWP
             this.PackagesDGW.Size = new System.Drawing.Size(916, 291);
             this.PackagesDGW.TabIndex = 1;
             // 
-            // Sender
-            // 
-            this.Sender.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Sender.HeaderText = "Отправитель";
-            this.Sender.MinimumWidth = 6;
-            this.Sender.Name = "Sender";
-            this.Sender.ReadOnly = true;
-            this.Sender.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Reciver
-            // 
-            this.Reciver.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Reciver.HeaderText = "Получатель";
-            this.Reciver.MinimumWidth = 6;
-            this.Reciver.Name = "Reciver";
-            this.Reciver.ReadOnly = true;
-            this.Reciver.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // DateAndTime
-            // 
-            this.DateAndTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.DateAndTime.HeaderText = "Создано";
-            this.DateAndTime.MinimumWidth = 6;
-            this.DateAndTime.Name = "DateAndTime";
-            this.DateAndTime.ReadOnly = true;
-            this.DateAndTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Status
-            // 
-            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Status.HeaderText = "Статус";
-            this.Status.MinimumWidth = 6;
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // CouriersGB
             // 
             this.CouriersGB.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CouriersGB.Controls.Add(this.EditCourier);
             this.CouriersGB.Controls.Add(this.PaySalaryBttn);
             this.CouriersGB.Controls.Add(this.SendCourier);
             this.CouriersGB.Controls.Add(this.DeleteCourier);
@@ -397,14 +367,79 @@ namespace DeliveryAWP
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // Sender
+            // 
+            this.Sender.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Sender.HeaderText = "Отправитель";
+            this.Sender.MinimumWidth = 6;
+            this.Sender.Name = "Sender";
+            this.Sender.ReadOnly = true;
+            this.Sender.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Reciver
+            // 
+            this.Reciver.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Reciver.HeaderText = "Получатель";
+            this.Reciver.MinimumWidth = 6;
+            this.Reciver.Name = "Reciver";
+            this.Reciver.ReadOnly = true;
+            this.Reciver.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // DateAndTime
+            // 
+            this.DateAndTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.DateAndTime.HeaderText = "Создано";
+            this.DateAndTime.MinimumWidth = 6;
+            this.DateAndTime.Name = "DateAndTime";
+            this.DateAndTime.ReadOnly = true;
+            this.DateAndTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // CourierData
+            // 
+            this.CourierData.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CourierData.HeaderText = "ФИО Курьера";
+            this.CourierData.MinimumWidth = 6;
+            this.CourierData.Name = "CourierData";
+            this.CourierData.ReadOnly = true;
+            this.CourierData.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Status
+            // 
+            this.Status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Status.HeaderText = "Статус";
+            this.Status.MinimumWidth = 6;
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // EditPackage
+            // 
+            this.EditPackage.Location = new System.Drawing.Point(301, 61);
+            this.EditPackage.Name = "EditPackage";
+            this.EditPackage.Size = new System.Drawing.Size(146, 31);
+            this.EditPackage.TabIndex = 7;
+            this.EditPackage.Text = "Изменить заявку";
+            this.EditPackage.UseVisualStyleBackColor = true;
+            this.EditPackage.Click += new System.EventHandler(this.EditPackage_Click);
+            // 
+            // EditCourier
+            // 
+            this.EditCourier.Location = new System.Drawing.Point(486, 24);
+            this.EditCourier.Name = "EditCourier";
+            this.EditCourier.Size = new System.Drawing.Size(180, 27);
+            this.EditCourier.TabIndex = 5;
+            this.EditCourier.Text = "Редактировать курьера";
+            this.EditCourier.UseVisualStyleBackColor = true;
+            this.EditCourier.Click += new System.EventHandler(this.EditCourier_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(934, 429);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.PCKGSGB);
             this.Controls.Add(this.CouriersGB);
+            this.Controls.Add(this.PCKGSGB);
             this.Name = "Form1";
             this.Text = "Автоматизированное рабочее место сотрудника курьерской службы";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -434,10 +469,6 @@ namespace DeliveryAWP
         private System.Windows.Forms.Label Date;
         private System.Windows.Forms.ToolStripSplitButton FILE;
         private System.Windows.Forms.ToolStripMenuItem Save;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Sender;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Reciver;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateAndTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.GroupBox CouriersGB;
         private System.Windows.Forms.Button DeleteCourier;
         private System.Windows.Forms.Button AddCourier;
@@ -455,6 +486,13 @@ namespace DeliveryAWP
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox FreeCouriers;
         private System.Windows.Forms.Button PaySalaryBttn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Sender;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Reciver;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateAndTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CourierData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
+        private System.Windows.Forms.Button EditPackage;
+        private System.Windows.Forms.Button EditCourier;
     }
 }
 

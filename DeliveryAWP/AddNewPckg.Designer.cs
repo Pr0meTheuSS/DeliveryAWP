@@ -35,6 +35,8 @@ namespace DeliveryAWP
             this.label2 = new System.Windows.Forms.Label();
             this.Add = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.DateAndTimeMTB = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
             // 
             // Sender
@@ -71,7 +73,7 @@ namespace DeliveryAWP
             // 
             // Add
             // 
-            this.Add.Location = new System.Drawing.Point(16, 130);
+            this.Add.Location = new System.Drawing.Point(16, 176);
             this.Add.Name = "Add";
             this.Add.Size = new System.Drawing.Size(95, 37);
             this.Add.TabIndex = 6;
@@ -81,7 +83,7 @@ namespace DeliveryAWP
             // 
             // Cancel
             // 
-            this.Cancel.Location = new System.Drawing.Point(373, 130);
+            this.Cancel.Location = new System.Drawing.Point(373, 176);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(95, 37);
             this.Cancel.TabIndex = 7;
@@ -89,18 +91,37 @@ namespace DeliveryAWP
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 119);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(187, 17);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Дата и время поступления";
+            // 
+            // DateAndTimeMTB
+            // 
+            this.DateAndTimeMTB.Location = new System.Drawing.Point(13, 139);
+            this.DateAndTimeMTB.Mask = "00/00/0000 90:00";
+            this.DateAndTimeMTB.Name = "DateAndTimeMTB";
+            this.DateAndTimeMTB.Size = new System.Drawing.Size(162, 22);
+            this.DateAndTimeMTB.TabIndex = 9;
+            this.DateAndTimeMTB.ValidatingType = typeof(System.DateTime);
+            // 
             // AddNewPckg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 179);
+            this.ClientSize = new System.Drawing.Size(483, 227);
+            this.Controls.Add(this.DateAndTimeMTB);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Add);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Reciver);
             this.Controls.Add(this.Sender);
-            this.MaximumSize = new System.Drawing.Size(501, 226);
             this.MinimumSize = new System.Drawing.Size(501, 226);
             this.Name = "AddNewPckg";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -118,5 +139,7 @@ namespace DeliveryAWP
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button Add;
         private System.Windows.Forms.Button Cancel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.MaskedTextBox DateAndTimeMTB;
     }
 }
